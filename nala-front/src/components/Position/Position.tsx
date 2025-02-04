@@ -17,9 +17,13 @@ const options = [
 ];
 
 export default function Position(props: {
+  id?: number;
   tier: number;
   defaultTitle?: string;
   defaultDivision?: string;
+  onSave?: any;
+  onUpdate?: any;
+  onDelete?: any;
 }) {
   const [editingTitle, setEditingTitle] = useState(false);
   const [positionTitle, setPositionTitle] = useState(
@@ -34,10 +38,43 @@ export default function Position(props: {
   const titleEditRef = useRef<{ children: HTMLInputElement[] } | null>(null);
 
   const applyChanges = () => {
-    console.log("apply");
+    if (
+      props.onSave &&
+      props.id &&
+      props.tier &&
+      positionTitle !== "" &&
+      division
+    ) {
+      props.onSave.mutate({
+        id: props.id,
+        tier: props.tier,
+        title: positionTitle,
+        division,
+      });
+      return;
+    }
+    if (
+      props.onUpdate &&
+      props.id &&
+      props.tier &&
+      positionTitle !== "" &&
+      division
+    ) {
+      props.onUpdate.mutate({
+        id: props.id,
+        tier: props.tier,
+        title: positionTitle,
+        division,
+      });
+      return;
+    }
+    alert("Missing props");
   };
   const deletePosition = () => {
     console.log("delete");
+    if (props.onDelete) {
+      props.onDelete();
+    }
   };
 
   return (
@@ -155,7 +192,13 @@ export default function Position(props: {
         </div>
 
         <div className="w-full flex justify-end gap-5 mt-4">
-          <Save data-no-dnd className="cursor-pointer" onClick={applyChanges} />
+          {division && !editingDivision && !editingTitle && (
+            <Save
+              data-no-dnd
+              className="cursor-pointer"
+              onClick={applyChanges}
+            />
+          )}
           <Delete
             data-no-dnd
             className="cursor-pointer"
