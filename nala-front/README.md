@@ -7,6 +7,7 @@ My environment:
 * I've used `Vite + Typescript + SWC`
 * I've implemented MUI with `@mui/styled-engine-sc` as requested [webpack.config.js](./webpack.config.js)
 * Tailwindcss to avoid writting css (don't go so far as to unify styles into classes to avoid having long 'classNames')
+* I didn't have to much time but i would like to improve the files abstraction too and the leave the code more clean
 
 1. `pnpm add` install deps
 2. `pnpm dev` run in hot reload
